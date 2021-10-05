@@ -5,7 +5,7 @@ Faster CCE is an improved methodology, which can find clustering results much fa
 We used enhanced-matrix in order to accelerate the center merging process in CCE.
 
 # Algorithm
-![alt text](<./img/faster_CCE_algorithm.png>)
+![Screenshot](<./img/faster_CCE_algorithm.PNG>)
 
 
 # Reference
