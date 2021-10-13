@@ -1,4 +1,5 @@
 # Faster-CCE
+by jaeminiman  
 Conection center evolution(CCE) is proposed by Geng et al. in 2020. 
 It is a clustering method producing multiple clustering results with diverse scale.
 Faster CCE is an improved methodology, which can find clustering results much faster then CCE. 
