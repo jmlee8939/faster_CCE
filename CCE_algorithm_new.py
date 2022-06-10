@@ -5,9 +5,11 @@ import matplotlib.pylab as plt
 import seaborn as sns
 import time
 from numpy.random import rand
+from sklearn.metrics.cluster import adjusted_rand_score
+from sklearn.metrics.cluster import normalized_mutual_info_score
 
 
-def CCE(connectivity, max_iteration, targetcenternumber=1, check=10):
+def CCE_experiment(connectivity, t_label, max_iteration, targetcenternumber=1, check=10):
     """ Run CCE algorithm 
     
     Args :
@@ -49,7 +51,9 @@ def CCE(connectivity, max_iteration, targetcenternumber=1, check=10):
     n_cut = list()
     P = connectivity
     n, m = P.shape
-    
+    best_ARI = 0
+    best_it = 0
+
     P_0 = P
     center_id = list()
     for i in range(max_iteration):
@@ -83,52 +87,24 @@ def CCE(connectivity, max_iteration, targetcenternumber=1, check=10):
             print('one cluster center')
             print('order %d' % (i + 1))
             print(center_id)
-            return n_center, center_id, label, n_cut
+            return n_center, center_id, label, best_ARI, best_it
 
         if len(center_id) <= targetcenternumber:
             print('less then %d cluster center' % (targetcenternumber))
             print('order %d' % (i + 1))
             print(center_id)
-            return n_center, center_id, label, n_cut
+            return n_center, center_id, label, best_ARI, best_it
+
+
+        ARI = adjusted_rand_score(label, np.array(t_label))
+        NMI = normalized_mutual_info_score(label, np.array(t_label))
         
+        if ARI > best_ARI :
+            best_ARI = ARI
+            best_it = i
+
+
         # next order connectivity  
         P = np.dot(P, P_0)
-    return n_center, center_id, label, n_cut
+    return n_center, center_id, label, best_ARI, best_it
 
-
-def connectivity_matrix(X, sigma):
-    """ Calculate ergodic connectivity with gaussian kernel
-    
-    Args :
-        X : data (array)
-        sigma : standard deviation (numeric)
-        
-    Returns :
-        ergodic connectivity matrix (array)
-    """
-    
-    n, p = X.shape
-    D = -2 * np.dot(X, X.T) + np.tile(np.sum(X ** 2, 1), 
-                                      (n, 1)).T + np.tile(np.sum(X ** 2, 1), (n, 1))
-    S = np.exp(-D / (2 * sigma ** 2))
-    S = S / np.tile(np.sum(S, 1), (n, 1)).T
-    return S
-
-def enhanced_connectivity_matrix(X, sigma, epsilon):
-    """ Calculate enhanced connectivity with gaussian kernel
-    
-    Args :
-        X : data (array)
-        sigma : standard deviation (numeric)
-        epsilon : parameter for control enhanced merging effect 
-        
-    Returns :
-        enhanced connectivity matrix (array)
-    """
-    n,p = X.shape
-    D = -2*np.dot(X,X.T)+np.tile(np.sum(X**2,1),(n,1)).T+np.tile(np.sum(X**2,1),(n,1))
-    S = np.exp(-D/(2*sigma**2))
-    S[S <= epsilon] = epsilon
-    S = S / np.tile(np.sum(S,1),(n,1)).T
-    S_hat = S
-    return S_hat

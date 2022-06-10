@@ -11,3 +11,7 @@ real data set
 	- odd(1,3,5,7) 2267 / 64 / 4
 	- even(0,2,4,6) 2237 / 64 / 4
 iris / 150 / 4 / 3 /  
+
+
+additional data set
+olivetti faces / 400 / 4096 / 40 /  
