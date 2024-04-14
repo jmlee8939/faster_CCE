@@ -7,8 +7,7 @@ We used enhanced-matrix in order to accelerate the center merging process in CCE
 And this idea was published in Pattern Recognition Journal
 
 # Algorithm
-![Screenshot](<./img/faster_CCE_algorithm.PNG>)
-
+<img src="https://github.com/jmlee8939/faster_CCE/blob/main/faster_CCE_algorithm.PNG">
 
 # Reference
 [1] Lee, J., Han, M., & Lee, J. S. (2022). Convergence Analysis of Connection Center Evolution and Faster Clustering. Pattern Recognition, 108639.
